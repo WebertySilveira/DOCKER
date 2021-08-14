@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    db:
+      image: mariadb
+      volumes: 
+        - .docker/mariadb:/var/lib/mysql
+      restart: always
+      ports: 
+        - "3306:3306"
+      environment: 
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: example
+        MYSQL_USER: exampleuser
+        MYSQL_PASSWORD: examplepass
+
+    phpmyadmin:
+      image: phpmyadmin
+      restart: always
+      ports:
+        - 8000:80
+
+    wordpress:
+      image: wordpress
+      volumes: 
+          - ./:/var/www/html
+      ports:
+          - "8080:80"
+      restart: always
+      environment:
+        WORDPRESS_DB_HOST: db
+        WORDPRESS_DB_NAME: example
+        WORDPRESS_DB_USER: exampleuser
+        WORDPRESS_DB_PASSWORD: examplepass
+  
